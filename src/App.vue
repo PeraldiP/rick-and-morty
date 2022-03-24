@@ -9,7 +9,7 @@
     You search a character(s) of Rick and Morty, fill out the form !
   </div>
   <div class="flex items-center justify-center">
-    <form class="flex items-center justify-start m-8 flex-col bg-slate-200 w-1/3 p-5 rounded-xl" v-on:submit.prevent="update">
+    <form class="flex items-center justify-start m-8 flex-col bg-slate-200 w-96 p-5 rounded-xl" v-on:submit.prevent="update">
       <h2 class="underline text-2xl">Formulaire :</h2>
       <div class="h-36 flex flex-col justify-around">
         <div>
@@ -43,7 +43,7 @@
           </select>
         </div>
       </div>
-      <button @click="searchCharacters()" class=" bg-sky-600 rounded-lg p-3">
+      <button @click="searchCharacters()" class=" bg-blue-400  hover:bg-blue-500 rounded-lg p-3">
         Find Characters
       </button>
     </form>
@@ -70,6 +70,14 @@ export default {
   },
   methods: {
     searchCharacters() {
+      this.$store.state.name=this.name;
+      this.$store.state.status=this.status;
+      this.$store.state.gender=this.gender;
+      console.log(this.$store.state.name);
+      console.log(this.$store.state.gender);
+      console.log(this.$store.state.status);
+      
+
       const client = new ApolloClient({
         uri: "https://rickandmortyapi.com/graphql",
         cache: new InMemoryCache(),
@@ -87,13 +95,19 @@ export default {
                         image
                         species
                       }
+                      info{
+                        count
+                        prev
+                        next
+                      }
                     }
                   }
                 `,
               })
               .then((result) => {
                 this.$store.state.characters=result.data.characters.results;
-                console.log(result.data.characters.results)
+                this.$store.state.info=result.data.characters.info;
+                console.log(result.data.characters)
                 }
               );
           },

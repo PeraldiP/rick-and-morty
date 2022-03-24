@@ -3,7 +3,11 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-      characters:null
+      characters:null,
+      info:null,
+      name:null,
+      status:null,
+      gender:null
   },
   mutations: {
   },
